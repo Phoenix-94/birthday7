@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Playfair Display', serif;
+      overflow: hidden;
+    }
+    .page {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: linear-gradient(#ffe0ec, #ffc2d4);
+      position: absolute;
+      top: 0; left: 0;
+      transition: opacity 2s ease;
+    }
+    .hidden { opacity: 0; pointer-events: none; }
+
+    .garden {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .flower {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: pink;
+      border-radius: 50%;
+      opacity: 0;
+      animation: bloomGarden 2s ease forwards;
+    }
+    @keyframes bloomGarden {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1.2); opacity: 1; }
+    }
+
+    .flower-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      animation: bloom 5s ease-in-out forwards;
+      z-index: 1;
+    }
+    .petal {
+      width: 100px;
+      height: 100px;
+      background: pink;
+      position: absolute;
+      border-radius: 50%;
+      transform-origin: bottom right;
+      opacity: 0;
+      animation: bloomPetal 2s forwards;
+    }
+    .petal:nth-child(1) { transform: rotate(0deg); animation-delay: 0.5s; }
+    .petal:nth-child(2) { transform: rotate(60deg); animation-delay: 1s; }
+    .petal:nth-child(3) { transform: rotate(120deg); animation-delay: 1.5s; }
+    .petal:nth-child(4) { transform: rotate(180deg); animation-delay: 2s; }
+    .petal:nth-child(5) { transform: rotate(240deg); animation-delay: 2.5s; }
+    .petal:nth-child(6) { transform: rotate(300deg); animation-delay: 3s; }
+
+    @keyframes bloomPetal {
+      to {
+        opacity: 1;
+        transform: scale(1.2) rotate(var(--rotation));
+      }
+    }
+
+    .wish {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      color: #b30059;
+      margin: 30px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #ff66a3;
+      border: none;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      z-index: 1;
+    }
+    .btn:hover {
+      background: #cc0066;
+    }
+
+    .second-page {
+      background: radial-gradient(circle, #ffd6e0, #ff99bb);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      animation: fadeIn 2s ease-in;
+    }
+    .second-page h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      color: #800040;
+      animation: fadeIn 2s ease-in;
+    }
+    .second-page p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #99004d;
+      margin-top: 1rem;
+      animation: fadeIn 3s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .falling-petals {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .petal-fall {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+      opacity: 0.2;
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sweet.mp3" type="audio/mp3">
+  </audio>
+
+  <div class="page first-page">
+    <div class="garden" id="garden"></div>
+    <div class="flower-container">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+    </div>
+    <div class="wish">Wishing you the happiest, most magical birthday ever. 🌸</div>
+    <button class="btn" onclick="goToSecondPage()">Open Your Surprise</button>
+  </div>
+
+  <div class="page second-page hidden">
+    <video autoplay muted loop>
+      <source src="https://cdn.pixabay.com/vimeo/234004079/flowers-8822.mp4?width=1280&hash=4b3314e77e224842403b2b69d3fc0f6f9efee775" type="video/mp4">
+    </video>
+    <div class="falling-petals" id="petals"></div>
+    <h1>Happy Birthday, Amrutha💖</h1>
+    <p>Like a flower blooming in spring, you light up the world with your beauty and warmth.</p>
+    <p>Hoping Your Day is As Special You Are!.</p>
+  </div>
+
+  <script>
+    function goToSecondPage() {
+      document.querySelector('.first-page').classList.add('hidden');
+      document.querySelector('.second-page').classList.remove('hidden');
+      startPetals();
+    }
+
+    function startPetals() {
+      const container = document.getElementById("petals");
+      for (let i = 0; i < 30; i++) {
+        const petal = document.createElement("div");
+        petal.classList.add("petal-fall");
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = 4 + Math.random() * 3 + "s";
+        petal.style.animationDelay = Math.random() * 5 + "s";
+        container.appendChild(petal);
+      }
+    }
+
+    function createGardenFlowers() {
+      const garden = document.getElementById("garden");
+      for (let i = 0; i < 100; i++) {
+        const flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.style.left = Math.random() * 100 + "vw";
+        flower.style.top = Math.random() * 100 + "vh";
+        flower.style.animationDelay = (Math.random() * 3) + "s";
+        flower.style.background = `hsl(${Math.random() * 360}, 70%, 80%)`;
+        garden.appendChild(flower);
+      }
+    }
+
+    window.onload = createGardenFlowers;
+  </script>
+</body>
+</html>
